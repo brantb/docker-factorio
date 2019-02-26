@@ -1,8 +1,11 @@
 param(
     [Parameter(Mandatory)]
-    [string]$Version
+    [string]$Version,
+
+    [Parameter()]
+    [string]$Image = "iqmetrix.azurecr.io/factorio"
 )
-$tag = "iqsandbox.azurecr.io/factorio:$Version"
+$tag = "$($Image):$($Version)"
 [uri]$downloadUri = "https://www.factorio.com/get-download/$Version/headless/linux64"
 $destination = Join-Path $BuildRoot "factorio_headless_x64_$Version.tar.xz"
 
@@ -11,7 +14,7 @@ task Download -If (-not (Test-Path $destination)) {
 } 
 
 task Build Download, {
-    exec {docker build --build-arg factorio_version=$Version -t $tag .}
+    exec { docker build --build-arg factorio_version=$Version -t $tag $BuildRoot }
 }
 
 task Test Build, {
