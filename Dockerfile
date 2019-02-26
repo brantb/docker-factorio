@@ -1,7 +1,9 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get dist-upgrade -y && \
-    apt install -y python3 xz-utils && apt-get clean
+RUN apt-get update && \
+    apt-get dist-upgrade -y && \
+    apt-get install -y python3 xz-utils && \
+    apt-get clean
 
 WORKDIR /opt
 
